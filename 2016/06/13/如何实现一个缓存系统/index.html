@@ -1,0 +1,546 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu_union_verify" content="d1952c66cf48912e21c18c7c581f382a">
+  <meta name="360-site-verification" content="67fbcc5a67f4c65c057315b28fa0b2c8" />
+<meta name="google-site-verification" content="2GzxQ0VtXwTSUdmGm6DzcmhTzM_I9QmzCb_pzpMzD88" />
+  
+    <title>Glory Seeker by HaioLv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="haiolv">
+    
+    <meta name="description" content="##如何实现一个缓存系统
+试想这样一个场景，当你当你的而应用频繁要运用某一个组件的时候，而这个组件因动态原因都放置在网络或者disk上，这个时候必然会涉及性能的问题，碰到这类问题，我们自然而然的就会想到缓存，那么，我们该如何实现一个缓存系统，或者说是怎么从零开始设计一个缓存系统，接下来，就让我们一步">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="Glory Seeker by HaioLv" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            var _bdId ='391982416296a0d54221f59fe35250d4';
+             hm.src = "//hm.baidu.com/hm.js?" + _bdId;
+             var s = document.getElementsByTagName("script")[0]; 
+             s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+     
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Glory Seeker by HaioLv">Glory Seeker by HaioLv</a></h1>
+				<a class="blog-motto">Make progress step by step everyday！</a>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+					
+                                            <form class="search" action=http://zhannei.baidu.com/cse/search target="_blank">
+                                            <label>Search</label>
+                                        <input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="Search"><br>
+					
+					</li>
+				</ul>
+                            </nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/如何实现一个缓存系统/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="haiolv">haiolv</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-06-13T03:21:40.818Z" itemprop="datePublished">2016-06-13</time>
+    Updated:<time datetime="2016-01-14T03:49:28.647Z" itemprop="dateModified">2016-01-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#设计前准备工作"><span class="toc-number">1.</span> <span class="toc-text">设计前准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#接口API实现"><span class="toc-number">2.</span> <span class="toc-text">接口API实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第一步，抽象出一个需要缓存的组件实例"><span class="toc-number">2.1.</span> <span class="toc-text">第一步，抽象出一个需要缓存的组件实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第二步，设计内存缓存接口"><span class="toc-number">2.2.</span> <span class="toc-text">第二步，设计内存缓存接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三步，设计Disk缓存接口"><span class="toc-number">2.3.</span> <span class="toc-text">第三步，设计Disk缓存接口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存示例"><span class="toc-number"></span> <span class="toc-text">缓存示例</span></a>
+		</div>
+		
+		<p>##如何实现一个缓存系统</p>
+<p>试想这样一个场景，当你当你的而应用频繁要运用某一个组件的时候，而这个组件因动态原因都放置在网络或者disk上，这个时候必然会涉及性能的问题，碰到这类问题，我们自然而然的就会想到缓存，那么，我们该如何实现一个缓存系统，或者说是怎么从零开始设计一个缓存系统，接下来，就让我们一步步来见证一个缓存系统的实现。</p>
+<h3 id="设计前准备工作"><a href="#设计前准备工作" class="headerlink" title="设计前准备工作"></a>设计前准备工作</h3><p>ok，这个时候我们脑通打开，高速旋转，做之前，我们要想明白这几件事情</p>
+<ul>
+<li>缓存到那个级别，即缓存到哪里？</li>
+<li>如何访问缓存，即如何设计缓存API？</li>
+</ul>
+<p>带着这几个问题，让问题先转一下，缓存到什么地方，说白了，就是找个地来存储这些中间组件，而这些地方都有什么呢，常见的一般有内存、disk,设置网络（像云、网盘等）。</p>
+<p>然后，我们知道要缓存到这些组件到上述说的这些地方上，那么缓存到这些地方上有什么好处呢？提高访问速度，对这个绝对是我们最想要的。</p>
+<p>明白了上述，接下来就是如何缓存常用组件到内存、disk、网络上了。</p>
+<h3 id="接口API实现"><a href="#接口API实现" class="headerlink" title="接口API实现"></a>接口API实现</h3><p>接下来，我们以实现 内存+disk双缓存设计为例来描述下如何去涉及一个缓存接口的API。</p>
+<h4 id="第一步，抽象出一个需要缓存的组件实例"><a href="#第一步，抽象出一个需要缓存的组件实例" class="headerlink" title="第一步，抽象出一个需要缓存的组件实例"></a>第一步，抽象出一个需要缓存的组件实例</h4><pre><code>public Class ComponentBean{
+
+    public void toString(){}
+}
+</code></pre><h4 id="第二步，设计内存缓存接口"><a href="#第二步，设计内存缓存接口" class="headerlink" title="第二步，设计内存缓存接口"></a>第二步，设计内存缓存接口</h4><p>内存中的缓存接口设计，首先我们想到的是Map,当然如果系统版本高于19，我们可以用ArrayMap,如果key值设计为Long,我们可以使用LongSparseArray.</p>
+<ul>
+<li>ArrayMap</li>
+</ul>
+<blockquote>
+<p>ArrayMap is a generic key-&gt;value mapping data structure that is designed to be more memory efficient than a traditional HashMap. It keeps its mappings in an array data structure – an integer array of hash codes for each item, and an Object array of the key/value pairs.</p>
+</blockquote>
+<p>Added in API level 19</p>
+<ul>
+<li>LongSparseArray</li>
+</ul>
+<blockquote>
+<p>SparseArray mapping longs to Objects. Unlike a normal array of Objects, there can be gaps in the indices. It is intended to be more memory efficient than using a HashMap to map Longs to Objects, both because it avoids auto-boxing keys and its data structure doesn’t rely on an extra entry object for each mapping.</p>
+</blockquote>
+<p>Added in API level 16</p>
+<p>本次设计内存缓存，主要基于最常用的Map来设计。</p>
+<pre><code>public interface IMemeoryCache{
+
+    void put(String key, Reference&lt;ComponentBean&gt;value);
+
+    ComponentBean get(String key);
+}
+</code></pre><p>上述是一个基本的设计，有存有取，那么接下来，要继续扩展一些基本的接口。试想 ，一个内存缓存系统除了存取之外，应该还有什么操作入口？remove?contain？是的，一个操作接口应该还包含一个删除入口、一个查询是否包含入口、一个能获取到当前缓存所有数据的入口、清空当前缓存数据的入口。</p>
+<ul>
+<li><p>删除入口</p>
+<p>  删除，参照JDK Map设计，我们可以定义一下接口</p>
+<pre><code>ComponentBean remove(String key);
+</code></pre></li>
+<li><p>查询是否包含入口</p>
+<pre><code>boolean contain(String key);
+</code></pre></li>
+<li><p>获取到当前缓存所有数据的入口</p>
+<p>  这个借口的实现，我们只要能获取到当前缓存中所有key值映射，就可以遍历当前缓存中所有数据了，所以</p>
+<pre><code>Collection&lt;String&gt;keys();
+</code></pre></li>
+<li><p>清空当前缓存数据的入口</p>
+<p>  void clear();</p>
+</li>
+</ul>
+<p>最终设计下来，整体应该是：</p>
+<pre><code>public interface IMemeoryCache{
+
+    void put(String key, Reference&lt;ComponentBean&gt;value);
+
+    ComponentBean get(String key);
+
+    ComponentBean remove(String key);
+
+    boolean contain(String key);
+
+    Collection&lt;String&gt;keys();
+
+    void clear();
+}
+</code></pre><p>当然，如果后续有需求，可以继续扩展 IMemeoryCache接口，骚年，拓展吧。</p>
+<h4 id="第三步，设计Disk缓存接口"><a href="#第三步，设计Disk缓存接口" class="headerlink" title="第三步，设计Disk缓存接口"></a>第三步，设计Disk缓存接口</h4><p>Disk缓存，骚年们首先想到是什么呢？流操作？对象序列化？定义一个合理的缓存目录？反正，我先想到的是对象序列化，为什么，因为本次示例存储的就是一个对象嘛。</p>
+<p>ok,接下来，我们先将我们要存储的对象序列化了</p>
+<ul>
+<li><p>存储的对象序列化</p>
+<p>  package com.haio.uil;</p>
+<p>  import android.os.Parcel;<br>  import android.os.Parcelable;</p>
+<p>  public class ComponentBean implements Parcelable {</p>
+<pre><code>private int componentId;
+
+ComponentBean(Parcel in) {
+    super();
+    this.componentId = in.readInt();
+}
+
+@Override
+public int describeContents() {
+    return 0;
+}
+
+@Override
+public void writeToParcel(Parcel paramParcel, int flag) {
+    paramParcel.writeInt(componentId);
+}
+
+public static final Parcelable.Creator&lt;ComponentBean&gt; CREATOR = new Creator&lt;ComponentBean&gt;() {
+
+    @Override
+    public ComponentBean[] newArray(int size) {
+        return new ComponentBean[size];
+    }
+
+    @Override
+    public ComponentBean createFromParcel(Parcel paramParcel) {
+        return new ComponentBean(paramParcel);
+    }
+};
+</code></pre><p>  }</p>
+</li>
+</ul>
+<p>在Android中使用序列化，无非两种途经： Parcelable 和 Serializable。</p>
+<p>对象序列化的目的：</p>
+<p>1）永久性保存对象，保存对象的字节序列到本地文件中；<br>2）通过序列化对象在网络中传递对象；<br>3）通过序列化在进程间传递对象。</p>
+<p>要说明一点，本文主讲的对象 并非对象的序列化，所以如何序列化对象就不做重点阐述，但可以给出参考链接<br><a href="http://developer.android.com/intl/zh-cn/reference/android/os/Parcelable.html#PARCELABLE_WRITE_RETURN_VALUE" target="_blank" rel="external">http://developer.android.com/intl/zh-cn/reference/android/os/Parcelable.html#PARCELABLE_WRITE_RETURN_VALUE</a></p>
+<p><a href="http://www.developerphil.com/parcelable-vs-serializable/" target="_blank" rel="external">http://www.developerphil.com/parcelable-vs-serializable/</a></p>
+<ul>
+<li>Disk存储接口设计</li>
+</ul>
+<p>如Memorycache设计一样，我们先给出一个基本的入口，然后一次扩展</p>
+<pre><code>public interface IDiskCache{
+
+    File getDirectory();
+
+    boolean save(String filename, ComponentBean bean) throws IOException;
+
+    File get(String filename);
+}
+</code></pre><p>上述是一个基本的设计，有存有取，并且可以获取到当前存储的缓存目录，那么接下来，要继续扩展一些基本的接口。试想 ，一个Disk缓存系统除了存取之外，应该还有什么操作入口？remove?资源释放close？是的，disk cache操作接口应该还包含一个删除入口、清空当前缓存数据的入口、关闭流数据入口（毕竟设计IO操作）。</p>
+<p>最终设计应该如下：</p>
+<pre><code>public interface IDiskCache{
+
+    File getDirectory();
+
+    boolean save(String filename, ComponentBean bean) throws IOException;
+
+    File get(String filename);
+
+    boolean remove(String imageUri);
+
+    void close();
+
+    void clear();
+}
+</code></pre><p>重要的接口设计完了，接下来就是实现了，后续且听下回分解。</p>
+<h2 id="缓存示例"><a href="#缓存示例" class="headerlink" title="缓存示例"></a>缓存示例</h2><p>###MemoryCache缓存</p>
+<p>做一个memoryCache缓存系统，想想该如何设计，照之前的接口设计，我们通过Reference来缓存Object，这样并不能保证所缓存的对象一直存在，比如，通过WeakReference来缓存对象，当GCRoot可以遍历到时，就会回收。所以，如果设计缓存，我们在之前的基础上，加一个强引用缓存（有一定数目限制），这样就可以保证有一部分常用对象的重复利用。</p>
+<p>重庆-zhusx(327270607)  11:43:52<br>如果你想序列化传递的话…整个对象的成员变量都得序列化<br>这个也就是为什么你之前这么写 会报错.<br>重庆-zhusx(327270607)  11:45:58<br>内部类 会把 外面一层的东西都包进去…也就是 所有对象必须序列话,而且外面一层的..的所有变量都序列化…</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2016/06/13/如何实现一个缓存系统/" data-title="Glory Seeker by HaioLv" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/06/13/hello-world/"  title="Hello World">
+ <strong>NEXT:</strong><br/> 
+ <span>Hello World
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	
+	<div class="ds-thread" data-title="" data-thread-key="如何实现一个缓存系统" data-author-key="haiolv" data-url="http://yoursite.com/post/如何实现一个缓存系统"></div>
+	
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#设计前准备工作"><span class="toc-number">1.</span> <span class="toc-text">设计前准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#接口API实现"><span class="toc-number">2.</span> <span class="toc-text">接口API实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第一步，抽象出一个需要缓存的组件实例"><span class="toc-number">2.1.</span> <span class="toc-text">第一步，抽象出一个需要缓存的组件实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第二步，设计内存缓存接口"><span class="toc-number">2.2.</span> <span class="toc-text">第二步，设计内存缓存接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三步，设计Disk缓存接口"><span class="toc-number">2.3.</span> <span class="toc-text">第三步，设计Disk缓存接口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存示例"><span class="toc-number"></span> <span class="toc-text">缓存示例</span></a>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-logo"></div>		
+	
+	<div class="social-list" class="clearfix">
+		
+		
+		
+		
+		
+	</div>
+</div>
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://gengbiao.me" target="_blank" title="coney">coney's Blog</a></li>
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+    
+            <p class="copyright"> © 2016 
+		
+		<a href="http://yoursite.com" target="_blank" title="haiolv">haiolv</a>
+		
+            && Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> && Theme by <a href="http://gengbiao.me" target="_blank" title="coney">coney</a>
+            </div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"null"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+<script>
+    
+        var _bdImg = '4';
+    
+    window._bd_share_config={
+        "common":{
+            "bdSnsKey":{
+
+            },
+            "bdText":"",
+            "bdMini":"2",
+            "bdMiniList":[
+                "qzone",
+                "tsina",
+                "weixin",
+                "renren",
+                "tqq",
+                "tieba",
+                "douban",
+                "sqq",
+                "diandian",
+                "huaban",
+                "youdao",
+                "mail",
+                "ty",
+                "fbook",
+                "twi",
+                "linkedin",
+                "copy",
+                "print"
+            ],
+            "bdPic":"",
+            "bdStyle":"0",
+            "bdSize":"16"
+        },
+        "slide":{
+            "type":"slide",
+            "bdImg":_bdImg,
+            "bdPos":"right",
+            "bdTop":"350"
+        },
+        "image":{
+            "viewList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ],
+            "viewText":"分享：",
+            "viewSize":"16"
+        },
+        "selectShare":{
+            "bdContainerClass":null,
+            "bdSelectMiniList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ]
+        }
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
+
