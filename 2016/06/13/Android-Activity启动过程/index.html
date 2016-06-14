@@ -91,7 +91,7 @@ ActivityThread类：该类为应用程序的主">
     </p>
   <p class="article-time">
     <time datetime="2016-06-13T03:24:36.000Z" itemprop="datePublished">2016-06-13</time>
-    更新日期:<time datetime="2016-06-13T09:40:39.480Z" itemprop="dateModified">2016-06-13</time>
+    更新日期:<time datetime="2016-06-14T03:11:23.564Z" itemprop="dateModified">2016-06-14</time>
     
   </p>
 </header>
@@ -100,7 +100,7 @@ ActivityThread类：该类为应用程序的主">
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Android-Activity的启动过程"><span class="toc-number">1.</span> <span class="toc-text">Android Activity的启动过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android进程创建"><span class="toc-number">1.1.</span> <span class="toc-text">Android进程创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity启动"><span class="toc-number">1.2.</span> <span class="toc-text">Activity启动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Instrumentation"><span class="toc-number">1.2.1.</span> <span class="toc-text">Instrumentation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ActivityManagerService"><span class="toc-number">1.2.2.</span> <span class="toc-text">ActivityManagerService</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ActivityStack"><span class="toc-number">1.2.3.</span> <span class="toc-text">ActivityStack</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ProcessRecord—记录了一个进程的相关信息。"><span class="toc-number">1.2.4.</span> <span class="toc-text">ProcessRecord—记录了一个进程的相关信息。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IApplicationThread接口AMS-gt-Application"><span class="toc-number">1.2.5.</span> <span class="toc-text">IApplicationThread接口AMS->Application</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于Activity启动的流程图"><span class="toc-number">1.2.6.</span> <span class="toc-text">关于Activity启动的流程图</span></a></li></ol></li></ol></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Android-Activity的启动过程"><span class="toc-number">1.</span> <span class="toc-text">Android Activity的启动过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android进程创建"><span class="toc-number">1.1.</span> <span class="toc-text">Android进程创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity启动"><span class="toc-number">1.2.</span> <span class="toc-text">Activity启动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Instrumentation"><span class="toc-number">1.2.1.</span> <span class="toc-text">Instrumentation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ActivityManagerService"><span class="toc-number">1.2.2.</span> <span class="toc-text">ActivityManagerService</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#启动一个Activity的方式"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">启动一个Activity的方式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ActivityStack"><span class="toc-number">1.2.3.</span> <span class="toc-text">ActivityStack</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TaskRecord类"><span class="toc-number">1.2.4.</span> <span class="toc-text">TaskRecord类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ActivityRecord"><span class="toc-number">1.2.5.</span> <span class="toc-text">ActivityRecord</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ProcessRecord—记录了一个进程的相关信息。"><span class="toc-number">1.2.6.</span> <span class="toc-text">ProcessRecord—记录了一个进程的相关信息。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IApplicationThread接口AMS-gt-Application"><span class="toc-number">1.2.7.</span> <span class="toc-text">IApplicationThread接口AMS->Application</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于Activity启动的流程图"><span class="toc-number">1.2.8.</span> <span class="toc-text">关于Activity启动的流程图</span></a></li></ol></li></ol></li></ol>
 		</div>
 		
 		<h2 id="Android-Activity的启动过程"><a href="#Android-Activity的启动过程" class="headerlink" title="Android Activity的启动过程"></a>Android Activity的启动过程</h2><h3 id="Android进程创建"><a href="#Android进程创建" class="headerlink" title="Android进程创建"></a>Android进程创建</h3><p>应用程序的入口一般来说，我们都认为是Launcher Activity的onCreate方法，但追求根本，Android应用程序的入口应该是ActivityThread的main方法。</p>
@@ -336,8 +336,73 @@ public static void main(String argv[]) {
 <p>1) 创建: callActivityOnCreate </p>
 <p>2) 暂停: callActivityOnPause</p>
 <p>3) 恢复: callActivityOnResume</p>
-<h4 id="ActivityManagerService"><a href="#ActivityManagerService" class="headerlink" title="ActivityManagerService"></a>ActivityManagerService</h4><h4 id="ActivityStack"><a href="#ActivityStack" class="headerlink" title="ActivityStack"></a>ActivityStack</h4><p>ActivityManagerService使用它来管理系统中所有的Activities的状态，Activities使用stack的方式进行管理。它是真正负责做事的家伙，很勤快的，但外界无人知道！</p>
-<h4 id="ProcessRecord—记录了一个进程的相关信息。"><a href="#ProcessRecord—记录了一个进程的相关信息。" class="headerlink" title="ProcessRecord—记录了一个进程的相关信息。"></a>ProcessRecord—记录了一个进程的相关信息。</h4><h4 id="IApplicationThread接口AMS-gt-Application"><a href="#IApplicationThread接口AMS-gt-Application" class="headerlink" title="IApplicationThread接口AMS-&gt;Application"></a>IApplicationThread接口AMS-&gt;Application</h4><p>IApplicationThread为AMS作为客户端访问Application服务器端的Binder接口。当创建Application时，将把此Binder对象传递给AMS，然后AMS把它保存在mProcessNames.ProcessRecord.thread中。当需要通知Application工作时，则调用IApplicationThread中对应的接口函数。</p>
+<h4 id="ActivityManagerService"><a href="#ActivityManagerService" class="headerlink" title="ActivityManagerService"></a>ActivityManagerService</h4><p>AMS提供的主要功能：</p>
+<ul>
+<li>统一调度各应用程序的Activities；</li>
+<li>内存管理</li>
+<li>进程管理</li>
+</ul>
+<h5 id="启动一个Activity的方式"><a href="#启动一个Activity的方式" class="headerlink" title="启动一个Activity的方式"></a>启动一个Activity的方式</h5><ul>
+<li>在应用程序中调用startActivity()启动指定Activity；</li>
+<li>在Launcher中点击一个应用程序的icon，启动新的Activity；</li>
+<li>按“back”返回键，结束当前Activity，返回到上一个Activity；</li>
+<li>长按“Home”键显示当前正在运行的程序列表，从中选择一个要启动的Activity；</li>
+</ul>
+<p>这四种方式最终都会按第一种方式进行Activity的启动，区别主要在于前端消息的接受和处理上不同。</p>
+<h4 id="ActivityStack"><a href="#ActivityStack" class="headerlink" title="ActivityStack"></a>ActivityStack</h4><p>ActivityManagerService使用它来管理系统中所有的Activities的状态，Activities使用stack的方式进行管理。它是真正负责做事的家伙，很勤快的，但外界无人知道！</p>
+<h4 id="TaskRecord类"><a href="#TaskRecord类" class="headerlink" title="TaskRecord类"></a>TaskRecord类</h4><p>ActivityManagerService中使用任务的概念来确保Activity启动和退出的顺序。TaskRecord中的几个重要变量如下：</p>
+<pre><code>final int taskId;       // 每个任务的标识.
+Intent intent;          // 创建该任务时对应的intent
+int numActivities;   //该任务中的Activity数目
+final ArrayList&lt;ActivityRecord&gt; mActivities = new ArrayList&lt;ActivityRecord&gt;();  //按照出现的先后顺序列出该任务中的所有Activity
+</code></pre><h4 id="ActivityRecord"><a href="#ActivityRecord" class="headerlink" title="ActivityRecord"></a>ActivityRecord</h4><p>ActivityManagerService使用ActivityRecord数据类来保存每个Activity的信息，ActivityRecord类基于IApplicationToken.Stub类，也是一个Binder,所以可以被IPC调用。</p>
+<p>主要包含的变量有：</p>
+<ul>
+<li><p>环境信息：Activity的工作环境，比如进程名称、文件路径、数据路径、图标、主题等，这些信息一般是固定的，比如以下变量：</p>
+<pre><code>final String packageName; // the package implementing intent&apos;s component
+final String processName; // process where this component wants to run
+final String baseDir;   // where activity source (resources etc) located
+final String resDir;   // where public activity source (public resources etc) located
+final String dataDir;   // where activity data should go
+int theme;              // resource identifier of activity&apos;s theme.
+int realTheme;          // actual theme resource we will use, never 0.
+</code></pre></li>
+<li><p>运行状态数据信息：如idle、stop、finishing等，一般为boolean类型，如下</p>
+<pre><code>boolean haveState;      // have we gotten the last activity state?
+boolean stopped;        // is activity pause finished?
+boolean delayedResume;  // not yet resumed because of stopped app switches?
+boolean finishing;      // activity in pending finish list?
+boolean configDestroy;  // need to destroy due to config change?
+</code></pre></li>
+</ul>
+<h4 id="ProcessRecord—记录了一个进程的相关信息。"><a href="#ProcessRecord—记录了一个进程的相关信息。" class="headerlink" title="ProcessRecord—记录了一个进程的相关信息。"></a>ProcessRecord—记录了一个进程的相关信息。</h4><p>~\frameworks\base\services\java\com\android\server\am</p>
+<p>一般情况下，一个应用程序（APK）运行会对应一个进程，而ProcessRecord就是用来记录一个进程的相关信息，主要包含以下几个方面：</p>
+<ul>
+<li><p>进程文件信息：与该进程对应的APK文件的内部信息，如：</p>
+<pre><code>final ApplicationInfo info; // all about the first app in the process
+final String processName;   // name of the process
+final ArrayMap&lt;String, ProcessStats.ProcessState&gt; pkgList 
+        = new ArrayMap&lt;String, ProcessStats.ProcessState&gt;();   //保存进程中所有APK文件包名
+</code></pre></li>
+<li><p>进程的内存状态信息：用于Linux系统的out of memory(OOM)情况的处理，当发生内存紧张时，Linux系统会根据进程的内存状态信息杀掉低优先级的进程，包括的变量有：</p>
+<pre><code>int maxAdj;                 // Maximum OOM adjustment for this process
+int curRawAdj;              // Current OOM unlimited adjustment for this process
+int setRawAdj;              // Last set OOM unlimited adjustment for this process
+int curAdj;                 // Current OOM adjustment for this process
+int setAdj;                 // Last set OOM adjustment for this process
+</code></pre><p> 变量中Adj的含义是调整值（adjustment）</p>
+</li>
+<li><p>进程中包含的Activity、ContentProvider、Service、Receiver等，如下</p>
+<pre><code>final ArrayList&lt;ActivityRecord&gt; activities = new ArrayList&lt;ActivityRecord&gt;();
+final ArraySet&lt;ServiceRecord&gt; services = new ArraySet&lt;ServiceRecord&gt;();
+final ArraySet&lt;ServiceRecord&gt; executingServices = new ArraySet&lt;ServiceRecord&gt;();
+final ArraySet&lt;ConnectionRecord&gt; connections = new ArraySet&lt;ConnectionRecord&gt;();
+final ArraySet&lt;ReceiverList&gt; receivers = new ArraySet&lt;ReceiverList&gt;();
+final ArrayMap&lt;String, ContentProviderRecord&gt; pubProviders = new ArrayMap&lt;String,             ContentProviderRecord&gt;();
+final ArrayList&lt;ContentProviderConnection&gt; conProviders = new ArrayList&lt;ContentProviderConnection&gt;();
+</code></pre></li>
+</ul>
+<h4 id="IApplicationThread接口AMS-gt-Application"><a href="#IApplicationThread接口AMS-gt-Application" class="headerlink" title="IApplicationThread接口AMS-&gt;Application"></a>IApplicationThread接口AMS-&gt;Application</h4><p>IApplicationThread为AMS作为客户端访问Application服务器端的Binder接口。当创建Application时，将把此Binder对象传递给AMS，然后AMS把它保存在mProcessNames.ProcessRecord.thread中。当需要通知Application工作时，则调用IApplicationThread中对应的接口函数。</p>
 <p><img src="http://i.imgur.com/E67npgC.png" alt="IApplicationThread"></p>
 <p>Reference:</p>
 <p><a href="http://www.kancloud.cn/digest/androidframeworks/127785" title="http://www.kancloud.cn/digest/androidframeworks/127785" target="_blank" rel="external">http://www.kancloud.cn/digest/androidframeworks/127785</a></p>
@@ -402,7 +467,7 @@ public static void main(String argv[]) {
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Android-Activity的启动过程"><span class="toc-number">1.</span> <span class="toc-text">Android Activity的启动过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android进程创建"><span class="toc-number">1.1.</span> <span class="toc-text">Android进程创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity启动"><span class="toc-number">1.2.</span> <span class="toc-text">Activity启动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Instrumentation"><span class="toc-number">1.2.1.</span> <span class="toc-text">Instrumentation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ActivityManagerService"><span class="toc-number">1.2.2.</span> <span class="toc-text">ActivityManagerService</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ActivityStack"><span class="toc-number">1.2.3.</span> <span class="toc-text">ActivityStack</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ProcessRecord—记录了一个进程的相关信息。"><span class="toc-number">1.2.4.</span> <span class="toc-text">ProcessRecord—记录了一个进程的相关信息。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IApplicationThread接口AMS-gt-Application"><span class="toc-number">1.2.5.</span> <span class="toc-text">IApplicationThread接口AMS->Application</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于Activity启动的流程图"><span class="toc-number">1.2.6.</span> <span class="toc-text">关于Activity启动的流程图</span></a></li></ol></li></ol></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Android-Activity的启动过程"><span class="toc-number">1.</span> <span class="toc-text">Android Activity的启动过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android进程创建"><span class="toc-number">1.1.</span> <span class="toc-text">Android进程创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity启动"><span class="toc-number">1.2.</span> <span class="toc-text">Activity启动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Instrumentation"><span class="toc-number">1.2.1.</span> <span class="toc-text">Instrumentation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ActivityManagerService"><span class="toc-number">1.2.2.</span> <span class="toc-text">ActivityManagerService</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#启动一个Activity的方式"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">启动一个Activity的方式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ActivityStack"><span class="toc-number">1.2.3.</span> <span class="toc-text">ActivityStack</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TaskRecord类"><span class="toc-number">1.2.4.</span> <span class="toc-text">TaskRecord类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ActivityRecord"><span class="toc-number">1.2.5.</span> <span class="toc-text">ActivityRecord</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ProcessRecord—记录了一个进程的相关信息。"><span class="toc-number">1.2.6.</span> <span class="toc-text">ProcessRecord—记录了一个进程的相关信息。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IApplicationThread接口AMS-gt-Application"><span class="toc-number">1.2.7.</span> <span class="toc-text">IApplicationThread接口AMS->Application</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于Activity启动的流程图"><span class="toc-number">1.2.8.</span> <span class="toc-text">关于Activity启动的流程图</span></a></li></ol></li></ol></li></ol>
   </div>
 
 <div id="asidepart">
