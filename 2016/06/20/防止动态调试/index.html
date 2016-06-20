@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android,动态调试," />
 
 
 
@@ -84,15 +84,18 @@
 
 
 
-<meta name="description" content="Just do it">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Glory Seeker">
-<meta property="og:url" content="http://91yang.github.io/tags/三次握手，四次挥手/index.html">
+<meta name="description" content="防止Apk被动态调式如何防止自己的apk被第三方动态调式呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="防止动态调试.md">
+<meta property="og:url" content="http://91yang.github.io/2016/06/20/防止动态调试/index.html">
 <meta property="og:site_name" content="Glory Seeker">
-<meta property="og:description" content="Just do it">
+<meta property="og:description" content="防止Apk被动态调式如何防止自己的apk被第三方动态调式呢？">
+<meta property="og:image" content="http://i.imgur.com/wfu7R40.jpg">
+<meta property="og:updated_time" content="2016-06-20T02:49:07.926Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Glory Seeker">
-<meta name="twitter:description" content="Just do it">
+<meta name="twitter:title" content="防止动态调试.md">
+<meta name="twitter:description" content="防止Apk被动态调式如何防止自己的apk被第三方动态调式呢？">
+<meta name="twitter:image" content="http://i.imgur.com/wfu7R40.jpg">
 
 
 
@@ -113,9 +116,9 @@
 
 
 
-  <link rel="canonical" href="http://91yang.github.io/tags/三次握手，四次挥手/"/>
+  <link rel="canonical" href="http://91yang.github.io/2016/06/20/防止动态调试/"/>
 
-  <title> 标签: 三次握手，四次挥手 | Glory Seeker </title>
+  <title> 防止动态调试.md | Glory Seeker </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -136,7 +139,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -234,46 +237,176 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        三次握手，四次挥手
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                防止动态调试.md
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-20T10:46:39+08:00" content="2016-06-20">
+              2016-06-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h2 id="防止Apk被动态调式"><a href="#防止Apk被动态调式" class="headerlink" title="防止Apk被动态调式"></a>防止Apk被动态调式</h2><p>如何防止自己的apk被第三方动态调式呢？</p>
+<p><img src="http://i.imgur.com/wfu7R40.jpg" alt="dynamic-debug"></p>
 
-      <h1 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2016/06/14/TCP_IP--三次握手-四次挥手/" itemprop="url">
-              
-                <span itemprop="name">TCP/IP--三次握手，四次挥手</span>
-              
-            </a>
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/path/to/wechat-reward-image" alt="haiolv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/path/to/alipay-reward-image" alt="haiolv Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-06-14T10:23:00+08:00"
-              content="2016-06-14" >
-          06-14
-        </time>
-      </div>
 
-    </header>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/动态调试/" rel="tag">#动态调试</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/17/Android小工具-方法计数统计DexCount-md/" rel="next" title="Android小工具--方法计数统计DexCount.md">
+                <i class="fa fa-chevron-left"></i> Android小工具--方法计数统计DexCount.md
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -281,6 +414,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -300,8 +437,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/head.jpg"
@@ -393,6 +539,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#防止Apk被动态调式"><span class="nav-number">1.</span> <span class="nav-text">防止Apk被动态调式</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -496,6 +653,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
