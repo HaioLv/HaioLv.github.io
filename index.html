@@ -258,6 +258,285 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/22/Groovy learner/" itemprop="url">
+                  Groovy learner.md
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-22T17:03:39+08:00" content="2016-07-22">
+              2016-07-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Groovy-learner"><a href="#Groovy-learner" class="headerlink" title="Groovy learner"></a>Groovy learner</h1><h2 id="gradle插件开发入门"><a href="#gradle插件开发入门" class="headerlink" title="gradle插件开发入门"></a>gradle插件开发入门</h2><h3 id="开发步骤"><a href="#开发步骤" class="headerlink" title="开发步骤"></a>开发步骤</h3><ul>
+<li><strong>step1</strong>: 新建一个Android project，之后，新建一个Android Module项目，类型选择Android Library，然后将新建的Module中除了build.gradle文件外的其余文件全都删除，并删除build.gradle文件中的所有内容。</li>
+<li><strong>step2</strong>: 在刚新建的Module中新建文件夹 <strong>src</strong>，接着在src文件目录下新建main文件夹，在main目录下新建 <strong>groovy</strong> 目录。除此在main目录下新建groovy目录外，你还需要在main目录下新建 <strong>resources</strong> 目录。这时候groovy文件夹会被Android识别为groovy源码目录，同理resources目录会被自动识别为资源文件夹。</li>
+<li><strong>step3</strong>: 在groovy目录下新建项目包名，如同新建Java包名那样。resources目录下新建文件夹 <strong>META-INF</strong>，META-INF文件夹下新建 <strong>gradle-plugins</strong> 文件夹。</li>
+</ul>
+<p>按照上述步骤操作完，你会看到如下目录：</p>
+<p><img src="http://i.imgur.com/R8P4HIv.png" alt="gradle_directory"></p>
+<p>从上面开发步骤中，我们得知，在 src/main 下新建groovy目录，代表我们将通过groovy来开发工程，resources代表资源目录。</p>
+<p>接下来，我们引用开发gradle插件的apk，并将其在build.gradle中进行配置。</p>
+<h4 id="配置-插件Module的build-gradle"><a href="#配置-插件Module的build-gradle" class="headerlink" title="配置 插件Module的build.gradle"></a>配置 插件Module的build.gradle</h4><p>打开Module的build.gradle</p>
+<pre><code>apply plugin: &apos;groovy&apos;
+apply plugin: &apos;maven&apos;
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+
+repositories {
+    mavenCentral()
+}
+</code></pre><p>从maven中心仓库中引入 gradleApi()以及localGroovy()。</p>
+<h4 id="撰写对应的插件入口"><a href="#撰写对应的插件入口" class="headerlink" title="撰写对应的插件入口"></a>撰写对应的插件入口</h4><p>在 src/main/groovy 目录下新建 groovy类的包名，如上图 com/haio/groovy,然后新建 PluginImpl.groovy groovy类文件。</p>
+<pre><code>package com.haio.groovy
+
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+
+public class PluginImpl implements Plugin&lt;Project&gt;{
+
+    @Override
+    void apply(Project project) {
+        project.task(&quot;testPlugin&quot;) &lt;&lt; {
+            println &quot;hello gradle plugin&quot;
+        }
+    }
+}
+</code></pre><p>注意：如果需要自己修改，将包名替换成自己写的。</p>
+<h4 id="映射入口文件"><a href="#映射入口文件" class="headerlink" title="映射入口文件"></a>映射入口文件</h4><p>在 resources/META-INF/gradle-plugins 目录下新建一个properties文件，并将其命名为你到时候想在 其他项目中引用的名称，例如，这里命名成 plugin.test.properties，并在其输入：</p>
+<pre><code>implementation-class=com.haio.groovy.PluginImpl
+</code></pre><p>注意： </p>
+<ul>
+<li>该文件的命名就是你只有使用插件的名字，这里命名为plugin.test.properties</li>
+<li>implementation-class中引用的类的路径要和 groovy中写的文件一一对应起来，注意包名需要替换为你自己的包名。</li>
+</ul>
+<p>此去经年，就完成了一简单的gradle插件，这里面创建了一个 叫 testPlugin的task,执行该 task 会输出 “hello gradle plugin”</p>
+<h3 id="发布该插件到-本地-仓库"><a href="#发布该插件到-本地-仓库" class="headerlink" title="发布该插件到 本地 仓库"></a>发布该插件到 本地 仓库</h3><p>接着，我们需要将插件发布到maven中央仓库，当然此时，我们先将插件发布到本地仓库进行测试，在module项目下的buidl.gradle文件中新加入发布的代码。</p>
+<pre><code>group=&apos;cn.haio.gradle.plugin&apos;
+version=&apos;1.0.0&apos;
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri(&apos;../repo&apos;))
+        }
+    }
+}
+</code></pre><p>完整的 gradleLibarar/build.gradle中的内容如下：</p>
+<pre><code>apply plugin: &apos;groovy&apos;
+apply plugin: &apos;maven&apos;
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+
+repositories {
+    mavenCentral()
+}
+
+group=&apos;cn.haio.gradle.plugin&apos;
+version=&apos;1.0.0&apos;
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri(&apos;../repo&apos;))
+        }
+    }
+}
+</code></pre><p>上面中定义的 <strong>group</strong> 和 <strong>version</strong> 的定义会被使用，作为在maven仓库的定位坐标的一部分，group会被作为坐标的groupId，version会被作为坐标的version，而坐标的artifactId组成即当前 <strong>module</strong> 名，我们让其取一个别名moduleName。然后maven本地仓库的目录就是当前项目目录下的repo目录。</p>
+<p>此后，在其他Module中引用遵从如下格式</p>
+<pre><code>group:artifactId:version
+</code></pre><p>这时候，同步更新工程，右侧的gradle Toolbar就会在module下多出一个task。</p>
+<p>[[upload]]<br><img src="http://i.imgur.com/CPEYKXy.png" alt="upload"></p>
+<p>然后，点击uploadArchives这个Task，就会在项目下多出一个repo目录，里面存着这个gradle插件。</p>
+<p>【【repo】】<br><img src="http://i.imgur.com/HbIkeEn.png" alt="repo"></p>
+<h3 id="使用发布到本地仓库的gradle插件"><a href="#使用发布到本地仓库的gradle插件" class="headerlink" title="使用发布到本地仓库的gradle插件"></a>使用发布到本地仓库的gradle插件</h3><ul>
+<li><p><strong>step1:</strong> 在当前工程的app (即准本引用该插件的Module)的android项目下的gradle.build的文件中加入 dependencies。</p>
+<pre><code>buildscript {
+    repositories {
+        maven {
+            url uri(&apos;../repo&apos;)
+        }
+    }
+    dependencies {
+        classpath &apos;cn.haio.gradle.plugin:gradlelibrary:1.0.0&apos;
+    }
+}
+</code></pre></li>
+<li><p><strong>step2:</strong> 使用该task,在gradle.build 中apply</p>
+<pre><code>apply plugin: &apos;plugin.test&apos;
+</code></pre></li>
+</ul>
+<p>apply plugin后面引号内的名字就是前文plugin.test.properties文件的文件名。而class path后面引号里的内容，就是上面grade中定义的group，version以及moduleName所共同决定的，和maven是一样的。</p>
+<p>完整的使用例子如下：</p>
+<pre><code>apply plugin: &apos;com.android.application&apos;
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion &quot;23.0.2&quot;
+
+    defaultConfig {
+        applicationId &quot;com.haio.gradle&quot;
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName &quot;1.0&quot;
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])
+    testCompile &apos;junit:junit:4.12&apos;
+    compile &apos;com.android.support:appcompat-v7:23.1.1&apos;
+}
+
+buildscript {
+    repositories {
+        maven {
+            url uri(&apos;../repo&apos;)
+        }
+    }
+    dependencies {
+        classpath &apos;cn.haio.gradle.plugin:gradlelibrary:1.0.0&apos;
+    }
+}
+apply plugin: &apos;plugin.test&apos;
+</code></pre><p>同步一下gradle，右侧app下other分类下就会多出一个testTask，双击执行这个Task，控制台就会输出刚才我们输入的字符串。<br>[[task]]</p>
+<p><img src="http://i.imgur.com/m7cvXwg.png" alt="task"></p>
+<pre><code>....
+Incremental java compilation is an incubating feature.
+:app:testPlugin
+hello gradle plugin
+
+BUILD SUCCESSFUL
+
+Total time: 4.049 secs
+15:38:39: External task execution finished &apos;testPlugin&apos;.
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/22/Protocol-Buffer-运用/" itemprop="url">
                   Protocol Buffer 运用.md
                 </a>
@@ -3001,7 +3280,7 @@ public static final Parcelable.Creator&lt;ComponentBean&gt; CREATOR = new Creato
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -3018,7 +3297,7 @@ public static final Parcelable.Creator&lt;ComponentBean&gt; CREATOR = new Creato
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
