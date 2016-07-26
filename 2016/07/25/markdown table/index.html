@@ -100,7 +100,7 @@ Mark">
 
 MarkDown 表格语法；
 Mark">
-<meta property="og:updated_time" content="2016-07-25T06:57:37.460Z">
+<meta property="og:updated_time" content="2016-07-25T08:58:18.570Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MarkDown Leaner(表格以及锚).md">
 <meta name="twitter:description" content="MarkDown 常用技巧markdown是一种轻量级的「标记语言」，其语法简单有效。常用的标记符号也不超过十个，这种相对于更为复杂的 HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。
@@ -321,6 +321,13 @@ Mark">
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/25/markdown table/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/25/markdown table/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -579,11 +586,26 @@ Mark">
           
 
 
-          
-  <div class="comments" id="comments">
-    
-  </div>
-
+           <% if (!index && post.comments && config.duoshuo_shortname){ %>
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="<%= post.path %>" data-title="<%= post.title %>" data-url="<%= post.permalink %>"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+  <% } %>
 
         </div>
         
@@ -852,6 +874,27 @@ Mark">
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = '91yang';
+      var disqus_identifier = '2016/07/25/markdown table/';
+      var disqus_title = "MarkDown Leaner(表格以及锚).md";
+      var disqus_url = 'http://91yang.github.io/2016/07/25/markdown table/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 
