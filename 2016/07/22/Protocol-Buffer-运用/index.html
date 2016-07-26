@@ -88,15 +88,15 @@
 
 <meta name="description" content="Protocol BufferProtocol Buffer简介Protocol buffer是Google推出来的一个序列化结构化数据的库。其提供了一种在各个平台、各个编程语言之间传递结构序列化数据。假使，Android客户端（使用java语言）需要封装一些特定的数据给服务端（使用php或者go），此时通过protocol buffer 就可以将要传递的数据结构化，例如，在java平台就以对象形">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Protocol Buffer 运用.md">
+<meta property="og:title" content="Protocol Buffer 运用">
 <meta property="og:url" content="http://91yang.github.io/2016/07/22/Protocol-Buffer-运用/index.html">
 <meta property="og:site_name" content="Glory Seeker">
 <meta property="og:description" content="Protocol BufferProtocol Buffer简介Protocol buffer是Google推出来的一个序列化结构化数据的库。其提供了一种在各个平台、各个编程语言之间传递结构序列化数据。假使，Android客户端（使用java语言）需要封装一些特定的数据给服务端（使用php或者go），此时通过protocol buffer 就可以将要传递的数据结构化，例如，在java平台就以对象形">
 <meta property="og:image" content="http://i.imgur.com/pH5QVAC.png">
 <meta property="og:image" content="http://i.imgur.com/EAVVcp9.png">
-<meta property="og:updated_time" content="2016-07-22T09:05:37.585Z">
+<meta property="og:updated_time" content="2016-07-26T03:04:00.160Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Protocol Buffer 运用.md">
+<meta name="twitter:title" content="Protocol Buffer 运用">
 <meta name="twitter:description" content="Protocol BufferProtocol Buffer简介Protocol buffer是Google推出来的一个序列化结构化数据的库。其提供了一种在各个平台、各个编程语言之间传递结构序列化数据。假使，Android客户端（使用java语言）需要封装一些特定的数据给服务端（使用php或者go），此时通过protocol buffer 就可以将要传递的数据结构化，例如，在java平台就以对象形">
 <meta name="twitter:image" content="http://i.imgur.com/pH5QVAC.png">
 
@@ -121,7 +121,7 @@
 
   <link rel="canonical" href="http://91yang.github.io/2016/07/22/Protocol-Buffer-运用/"/>
 
-  <title> Protocol Buffer 运用.md | Glory Seeker </title>
+  <title> Protocol Buffer 运用 | Glory Seeker </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +261,7 @@
             
             
               
-                Protocol Buffer 运用.md
+                Protocol Buffer 运用
               
             
           </h1>
@@ -635,16 +635,16 @@ message AddressBook {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/20/防止动态调试/" rel="next" title="防止动态调试.md">
-                <i class="fa fa-chevron-left"></i> 防止动态调试.md
+              <a href="/2016/06/20/防止动态调试/" rel="next" title="防止动态调试">
+                <i class="fa fa-chevron-left"></i> 防止动态调试
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/07/22/Groovy learner/" rel="prev" title="Groovy learner.md">
-                Groovy learner.md <i class="fa fa-chevron-right"></i>
+              <a href="/2016/07/22/Groovy learner/" rel="prev" title="Groovy learner">
+                Groovy learner <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -668,19 +668,50 @@ message AddressBook {
           
 
 
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
+          <% if (config.disqus_shortname && page.comments){ %>
+<!--likaci tab.js init begin-->
+<script type="text/javascript" src="/js/tab.js"></script>
+<script type="text/javascript">
+    window.onload=function(){
+         var tabtype={trigger:'mouseover',tabCurrentClass:'newclass',auto:false,timer:4000,delay:300 };
+         tabInit(tabtype,['Disqus_bt','disqus_thread'],['duoshuo_bt','ds-thread'])
+    }
+</script>
+<!--likaic tab.js init end-->
+<!--likaci css style begin-->
+<style type="text/css">
+#Disqus_bt,#duoshuo_bt { padding: 5px 10px 5px 7px; line-height: 17px; display: block; float: left; margin: 0 7px 0 0; background-color: #f5f5f5; border: 1px solid #dedede; border-top: 1px solid #eee; border-left: 1px solid #eee; }
+#Disqus_bt{color: #336699}
+#duoshuo_bt{color: #d12f19}
+#duoshuo_bt.newclass{background-color:#DFF4FF}
+#Disqus_bt.newclass{background-color:#E6EFC2}
+</style>
+<!--likaci css style end-->
+<section id="comment">
+  <h1 class="title"><%= __('comment') %></h1>
+  <!--likaci add button begin-->
+  <div id="duoshuo_bt">多说</div>
+  <div id="Disqus_bt" >Disqus</div>
+  <!--liakc add button end-->
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-
-
+<!--likaci add duoshuo begin-->
+    <div class="ds-thread"></div>
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yourshotname"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!--likaci add duoshuo end-->
+</section>
+<% } %>
         </div>
         
           
@@ -953,7 +984,7 @@ message AddressBook {
     <script type="text/javascript">
       var disqus_shortname = '91yang';
       var disqus_identifier = '2016/07/22/Protocol-Buffer-运用/';
-      var disqus_title = "Protocol Buffer 运用.md";
+      var disqus_title = "Protocol Buffer 运用";
       var disqus_url = 'http://91yang.github.io/2016/07/22/Protocol-Buffer-运用/';
 
       function run_disqus_script(disqus_script){

@@ -99,7 +99,7 @@
 **tools.bat**
 tools.ba">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android小工具--方法计数统计DexCount.md">
+<meta property="og:title" content="Android小工具--方法计数统计DexCount">
 <meta property="og:url" content="http://91yang.github.io/2016/06/17/Android小工具-方法计数统计DexCount-md/index.html">
 <meta property="og:site_name" content="Glory Seeker">
 <meta property="og:description" content="Android小工具–方法计数统计DexCountdownload:Android小工具–方法计数统计DexCount 下载
@@ -114,9 +114,9 @@ tools.ba">
 
 **tools.bat**
 tools.ba">
-<meta property="og:updated_time" content="2016-06-17T05:22:19.983Z">
+<meta property="og:updated_time" content="2016-07-26T03:03:48.127Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android小工具--方法计数统计DexCount.md">
+<meta name="twitter:title" content="Android小工具--方法计数统计DexCount">
 <meta name="twitter:description" content="Android小工具–方法计数统计DexCountdownload:Android小工具–方法计数统计DexCount 下载
 目录结构.
 ├── dex-method-counts.jar
@@ -151,7 +151,7 @@ tools.ba">
 
   <link rel="canonical" href="http://91yang.github.io/2016/06/17/Android小工具-方法计数统计DexCount-md/"/>
 
-  <title> Android小工具--方法计数统计DexCount.md | Glory Seeker </title>
+  <title> Android小工具--方法计数统计DexCount | Glory Seeker </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -291,7 +291,7 @@ tools.ba">
             
             
               
-                Android小工具--方法计数统计DexCount.md
+                Android小工具--方法计数统计DexCount
               
             
           </h1>
@@ -479,8 +479,8 @@ popd
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/06/20/防止动态调试/" rel="prev" title="防止动态调试.md">
-                防止动态调试.md <i class="fa fa-chevron-right"></i>
+              <a href="/2016/06/20/防止动态调试/" rel="prev" title="防止动态调试">
+                防止动态调试 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -504,19 +504,50 @@ popd
           
 
 
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
+          <% if (config.disqus_shortname && page.comments){ %>
+<!--likaci tab.js init begin-->
+<script type="text/javascript" src="/js/tab.js"></script>
+<script type="text/javascript">
+    window.onload=function(){
+         var tabtype={trigger:'mouseover',tabCurrentClass:'newclass',auto:false,timer:4000,delay:300 };
+         tabInit(tabtype,['Disqus_bt','disqus_thread'],['duoshuo_bt','ds-thread'])
+    }
+</script>
+<!--likaic tab.js init end-->
+<!--likaci css style begin-->
+<style type="text/css">
+#Disqus_bt,#duoshuo_bt { padding: 5px 10px 5px 7px; line-height: 17px; display: block; float: left; margin: 0 7px 0 0; background-color: #f5f5f5; border: 1px solid #dedede; border-top: 1px solid #eee; border-left: 1px solid #eee; }
+#Disqus_bt{color: #336699}
+#duoshuo_bt{color: #d12f19}
+#duoshuo_bt.newclass{background-color:#DFF4FF}
+#Disqus_bt.newclass{background-color:#E6EFC2}
+</style>
+<!--likaci css style end-->
+<section id="comment">
+  <h1 class="title"><%= __('comment') %></h1>
+  <!--likaci add button begin-->
+  <div id="duoshuo_bt">多说</div>
+  <div id="Disqus_bt" >Disqus</div>
+  <!--liakc add button end-->
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-
-
+<!--likaci add duoshuo begin-->
+    <div class="ds-thread"></div>
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yourshotname"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!--likaci add duoshuo end-->
+</section>
+<% } %>
         </div>
         
           
@@ -789,7 +820,7 @@ popd
     <script type="text/javascript">
       var disqus_shortname = '91yang';
       var disqus_identifier = '2016/06/17/Android小工具-方法计数统计DexCount-md/';
-      var disqus_title = "Android小工具--方法计数统计DexCount.md";
+      var disqus_title = "Android小工具--方法计数统计DexCount";
       var disqus_url = 'http://91yang.github.io/2016/06/17/Android小工具-方法计数统计DexCount-md/';
 
       function run_disqus_script(disqus_script){
